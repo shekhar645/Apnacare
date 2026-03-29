@@ -6,7 +6,7 @@ export const AppContext = createContext()
 
 const AppContextProvider = ({ children }) => {
 
-  const backendUrl = 'http://localhost:5000'
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
   const [token, setToken] = useState(localStorage.getItem('token') || false)
   const [userData, setUserData] = useState(false)
   const [doctors, setDoctors] = useState([])
