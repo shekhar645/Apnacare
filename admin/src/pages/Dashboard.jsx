@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 
 const Dashboard = () => {
-  const backendUrl = 'http://localhost:5000'
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
   const aToken = localStorage.getItem('aToken')
   const [dashData, setDashData] = useState({
     doctors: 0, appointments: 0, patients: 0, latestAppointments: []

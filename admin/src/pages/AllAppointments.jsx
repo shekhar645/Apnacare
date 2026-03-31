@@ -3,7 +3,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 
 const AllAppointments = () => {
-  const backendUrl = 'http://localhost:5000'
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
   const aToken = localStorage.getItem('aToken')
   const [appointments, setAppointments] = useState([])
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']

@@ -7,7 +7,7 @@ const Login = ({ setAToken }) => {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const backendUrl = 'http://localhost:5000'
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const onSubmitHandler = async (e) => {
     e.preventDefault()

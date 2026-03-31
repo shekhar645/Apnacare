@@ -3,7 +3,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 
 const DoctorsList = () => {
-  const backendUrl = 'http://localhost:5000'
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
   const aToken = localStorage.getItem('aToken')
   const [doctors, setDoctors] = useState([])
 
