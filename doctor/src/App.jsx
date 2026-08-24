@@ -4,34 +4,32 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
-import AllAppointments from './pages/AllAppointments'
-import AddDoctor from './pages/AddDoctor'
-import DoctorsList from './pages/DoctorsList'
-import DoctorSalaries from './pages/DoctorSalaries'
+import Appointments from './pages/Appointments'
+import Salary from './pages/Salary'
+import Profile from './pages/Profile'
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 
 const App = () => {
-  const [aToken, setAToken] = useState(localStorage.getItem('aToken') || '')
+  const [dToken, setDToken] = useState(localStorage.getItem('dToken') || '')
 
-  return aToken
+  return dToken
     ? <div className='bg-gray-50 min-h-screen'>
         <ToastContainer />
-        <Navbar aToken={aToken} setAToken={setAToken} />
+        <Navbar dToken={dToken} setDToken={setDToken} />
         <div className='flex'>
           <Sidebar />
           <div className='flex-1 p-6'>
             <Routes>
               <Route path='/' element={<Dashboard />} />
-              <Route path='/all-appointments' element={<AllAppointments />} />
-              <Route path='/add-doctor' element={<AddDoctor />} />
-              <Route path='/doctors-list' element={<DoctorsList />} />
-              <Route path='/doctor-salaries' element={<DoctorSalaries />} />
+              <Route path='/appointments' element={<Appointments />} />
+              <Route path='/salary' element={<Salary />} />
+              <Route path='/profile' element={<Profile />} />
             </Routes>
           </div>
         </div>
       </div>
-    : <Login setAToken={setAToken} />
+    : <Login setDToken={setDToken} />
 }
 
 export default App

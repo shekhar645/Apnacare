@@ -106,4 +106,63 @@ const getDashboard = async (req, res) => {
   }
 }
 
-module.exports = { addDoctor, adminLogin, allDoctors, allAppointments, cancelAppointment, completeAppointment, changeAvailability, getDashboard }
+const getDoctorSalaries = async (req, res) => {
+  try {
+    const doctors = await doctorModel.find({}).select('-password')
+    const appointments = await appointmentModel.find({ isCompleted: true })
+
+    const salaryData = doctors.map(doc => {
+      const docAppointments = appointments.filter(a => a.docId === doc._id.toString())
+      const totalEarned = docAppointments.reduce((sum, a) => sum + a.amount, 0)
+      const adminShare = Math.round(totalEarned * 0.2)
+      const doctorSalary = Math.round(totalEarned * 0.8)
+
+      return {
+        _id: doc._id,
+        name: doc.name,
+        speciality: doc.speciality,
+        image: doc.image,
+        fees: doc.fees,
+        totalAppointments: docAppointments.length,
+        totalEarned,
+        adminShare,
+        doctorSalary,
+        salaryHistory: doc.salaryHistory || []
+      }
+    })
+
+    res.json({ success: true, salaryData })
+  } catch (error) {
+    res.json({ success: false, message: error.message })
+  }
+}
+
+const paySalary = async (req, res) => {
+  try {
+    const { docId, amount, month, appointments } = req.body
+    const doctor = await doctorModel.findById(docId)
+    if (!doctor) return res.json({ success: false, message: 'Doctor not found' })
+
+    const salaryEntry = {
+      month,
+      amount: Number(amount),
+      paidOn: new Date(),
+      appointments: Number(appointments)
+    }
+
+    await doctorModel.findByIdAndUpdate(docId, {
+      $push: { salaryHistory: salaryEntry },
+      $inc: { salary: Number(amount) }
+    })
+
+    res.json({ success: true, message: `Salary of ₹${amount} paid to ${doctor.name}` })
+  } catch (error) {
+    res.json({ success: false, message: error.message })
+  }
+}
+
+module.exports = {
+  addDoctor, adminLogin, allDoctors, allAppointments,
+  cancelAppointment, completeAppointment, changeAvailability,
+  getDashboard, getDoctorSalaries, paySalary
+}

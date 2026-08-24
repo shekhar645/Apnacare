@@ -8,7 +8,9 @@ const {
   cancelAppointment,
   completeAppointment,
   changeAvailability,
-  getDashboard
+  getDashboard,
+  getDoctorSalaries,
+  paySalary
 } = require('../controllers/adminController')
 const authAdmin = require('../middleware/authAdmin')
 
@@ -20,5 +22,7 @@ router.post('/cancel-appointment', authAdmin, cancelAppointment)
 router.post('/complete-appointment', authAdmin, completeAppointment)
 router.post('/change-availability', authAdmin, changeAvailability)
 router.get('/dashboard', authAdmin, getDashboard)
+router.get('/doctor-salaries', authAdmin, getDoctorSalaries)
+router.post('/pay-salary', authAdmin, paySalary)
 
 module.exports = router

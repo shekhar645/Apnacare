@@ -4,10 +4,9 @@ import { NavLink } from 'react-router-dom'
 const Sidebar = () => {
   const menuItems = [
     { path: '/', icon: '📊', label: 'Dashboard' },
-    { path: '/all-appointments', icon: '📅', label: 'Appointments' },
-    { path: '/add-doctor', icon: '➕', label: 'Add Doctor' },
-    { path: '/doctors-list', icon: '👨‍⚕️', label: 'Doctors List' },
-    { path: '/doctor-salaries', icon: '💰', label: 'Doctor Salaries' },
+    { path: '/appointments', icon: '📅', label: 'My Appointments' },
+    { path: '/salary', icon: '💰', label: 'My Salary' },
+    { path: '/profile', icon: '👨‍⚕️', label: 'My Profile' },
   ]
 
   return (
