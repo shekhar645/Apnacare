@@ -1,86 +1,77 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import logo from '../assets/logo.jpeg'
 
-const Login = ({ setAToken }) => {
+const Login = ({ setDToken }) => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL
-
-  const onSubmitHandler = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
-    setLoading(true)
     try {
-      const { data } = await axios.post(`${backendUrl}/api/admin/login`, { email, password })
+      setLoading(true)
+      const { data } = await axios.post(`${backendUrl}/api/doctor/login`, { email, password })
       if (data.success) {
-        localStorage.setItem('aToken', data.token)
-        setAToken(data.token)
-        toast.success('Welcome to ApnaCare Admin! 🎉')
+        localStorage.setItem('dToken', data.token)
+        setDToken(data.token)
+        toast.success('Welcome Doctor! 👨‍⚕️')
       } else {
         toast.error(data.message)
       }
     } catch (error) {
       toast.error(error.message)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   return (
-    <div className='min-h-screen bg-gray-50 flex items-center justify-center'>
-      <div className='w-full max-w-md'>
-
-        {/* Logo */}
+    <div className='min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center'>
+      <div className='bg-white rounded-3xl shadow-xl p-8 w-full max-w-md'>
         <div className='text-center mb-8'>
-          <div className='w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg'>
-            <span className='text-white text-3xl font-bold'>A</span>
+          <img
+            src={logo}
+            alt='ApnaCare Logo'
+            className='w-16 h-16 rounded-2xl object-cover mx-auto mb-4'
+          />
+          <h1 className='text-2xl font-bold text-gray-800'>ApnaCare</h1>
+          <p className='text-gray-500 text-sm mt-1'>Doctor Portal Login</p>
+        </div>
+
+        <form onSubmit={handleLogin} className='space-y-4'>
+          <div>
+            <label className='text-sm font-medium text-gray-700 block mb-1'>Email</label>
+            <input
+              type='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder='doctor@example.com'
+              required
+              className='w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500'
+            />
           </div>
-          <h1 className='text-2xl font-bold text-gray-800'>ApnaCare Admin</h1>
-          <p className='text-gray-500 text-sm mt-1'>Sign in to manage your platform</p>
-        </div>
-
-        {/* Form */}
-        <div className='bg-white rounded-2xl shadow-lg p-8 border border-gray-100'>
-          <form onSubmit={onSubmitHandler} className='flex flex-col gap-5'>
-
-            <div>
-              <label className='text-sm font-medium text-gray-700 mb-1.5 block'>Admin Email</label>
-              <input
-                type='email'
-                placeholder='admin@apnacare.com'
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className='w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all'
-                required
-              />
-            </div>
-
-            <div>
-              <label className='text-sm font-medium text-gray-700 mb-1.5 block'>Password</label>
-              <input
-                type='password'
-                placeholder='Enter admin password'
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className='w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all'
-                required
-              />
-            </div>
-
-            <button
-              type='submit'
-              disabled={loading}
-              className='w-full bg-blue-600 text-white py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-all shadow-lg mt-2 disabled:opacity-70'>
-              {loading ? 'Signing in...' : 'Sign In to Admin Panel'}
-            </button>
-
-          </form>
-        </div>
-
-        <p className='text-center text-gray-400 text-xs mt-6'>
-          ApnaCare Admin Panel — Authorized Access Only
-        </p>
+          <div>
+            <label className='text-sm font-medium text-gray-700 block mb-1'>Password</label>
+            <input
+              type='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder='••••••••'
+              required
+              className='w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500'
+            />
+          </div>
+          <button
+            type='submit'
+            disabled={loading}
+            className='w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition-all disabled:opacity-50'
+          >
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
+        </form>
       </div>
     </div>
   )

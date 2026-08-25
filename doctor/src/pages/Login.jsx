@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import logo from '../assets/logo.jpeg'
 
 const Login = ({ setDToken }) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL
@@ -31,9 +32,11 @@ const Login = ({ setDToken }) => {
     <div className='min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center'>
       <div className='bg-white rounded-3xl shadow-xl p-8 w-full max-w-md'>
         <div className='text-center mb-8'>
-          <div className='w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4'>
-            <span className='text-white font-bold text-3xl'>A</span>
-          </div>
+          <img
+            src={logo}
+            alt='ApnaCare Logo'
+            className='w-16 h-16 rounded-2xl object-cover mx-auto mb-4'
+          />
           <h1 className='text-2xl font-bold text-gray-800'>ApnaCare</h1>
           <p className='text-gray-500 text-sm mt-1'>Doctor Portal Login</p>
         </div>

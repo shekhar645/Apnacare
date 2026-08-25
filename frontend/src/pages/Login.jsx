@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import logo from '../assets/logo.jpeg'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -49,9 +50,11 @@ const Login = () => {
       <div className='w-full max-w-md'>
         <div className='bg-white rounded-3xl shadow-2xl p-8 border border-gray-100'>
           <div className='text-center mb-8'>
-            <div className='w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg'>
-              <span className='text-white text-3xl'>🏥</span>
-            </div>
+            <img
+              src={logo}
+              alt='ApnaCare Logo'
+              className='w-16 h-16 rounded-2xl object-cover mx-auto mb-4 shadow-lg'
+            />
             <h2 className='text-2xl font-bold text-gray-800'>
               {state === 'Login' ? 'Welcome Back!' : 'Create Account'}
             </h2>
