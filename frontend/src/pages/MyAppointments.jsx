@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import jsPDF from 'jspdf'
 
 const MyAppointments = () => {
   const { backendUrl, token } = useContext(AppContext)
@@ -47,9 +48,71 @@ const MyAppointments = () => {
     }
   }
 
+  const downloadReceipt = (item) => {
+    const doc = new jsPDF()
+
+    // Header
+    doc.setFillColor(37, 99, 235)
+    doc.rect(0, 0, 210, 30, 'F')
+    doc.setTextColor(255, 255, 255)
+    doc.setFontSize(22)
+    doc.setFont('helvetica', 'bold')
+    doc.text('ApnaCare', 15, 18)
+    doc.setFontSize(11)
+    doc.setFont('helvetica', 'normal')
+    doc.text('Appointment Receipt', 15, 25)
+
+    // Body
+    doc.setTextColor(30, 30, 30)
+    let y = 45
+
+    doc.setFontSize(14)
+    doc.setFont('helvetica', 'bold')
+    doc.text('Receipt Details', 15, y)
+    y += 10
+
+    doc.setFontSize(11)
+    doc.setFont('helvetica', 'normal')
+
+    const rows = [
+      ['Receipt No.', item._id],
+      ['Status', item.cancelled ? 'Cancelled' : item.isCompleted ? 'Completed' : 'Upcoming'],
+      ['Payment', item.payment ? 'Paid' : 'Pending'],
+      ['', ''],
+      ['Patient Name', item.userData.name],
+      ['Doctor', item.docData.name],
+      ['Speciality', item.docData.speciality],
+      ['Date', slotDateFormat(item.slotDate)],
+      ['Time', item.slotTime],
+      ['Clinic Address', `${item.docData.address.line1}, ${item.docData.address.line2}`],
+      ['', ''],
+      ['Amount Paid', `Rs. ${item.amount}`],
+    ]
+
+    rows.forEach(([label, value]) => {
+      if (label === '') { y += 4; return }
+      doc.setFont('helvetica', 'bold')
+      doc.text(`${label}:`, 15, y)
+      doc.setFont('helvetica', 'normal')
+      doc.text(String(value), 70, y)
+      y += 8
+    })
+
+    // Footer
+    doc.setDrawColor(220, 220, 220)
+    doc.line(15, y + 5, 195, y + 5)
+    doc.setFontSize(9)
+    doc.setTextColor(120, 120, 120)
+    doc.text('This is a computer-generated receipt from ApnaCare. Thank you for choosing us for your healthcare needs.', 15, y + 12)
+
+    doc.save(`ApnaCare_Receipt_${item._id}.pdf`)
+  }
+
   useEffect(() => {
     if (token) getUserAppointments()
   }, [token])
+
+
 
   return (
     <div className='py-8'>
@@ -117,20 +180,27 @@ const MyAppointments = () => {
                         <span>💰</span>
                         <span className='font-bold text-blue-600'>₹{item.amount}</span>
                       </div>
-                      {!item.cancelled && !item.isCompleted && (
-                        <div className='flex gap-3'>
-                          <button
-                            onClick={() => navigate(`/appointment/${item.docId}`)}
-                            className='px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 transition-colors'>
-                            Reschedule
-                          </button>
-                          <button
-                            onClick={() => cancelAppointment(item._id)}
-                            className='px-4 py-2 bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 transition-colors border border-red-200'>
-                            Cancel
-                          </button>
-                        </div>
-                      )}
+                      <div className='flex gap-3'>
+                        <button
+                          onClick={() => downloadReceipt(item)}
+                          className='px-4 py-2 bg-gray-50 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-100 transition-colors border border-gray-200 flex items-center gap-1.5'>
+                          <span>📄</span> Receipt
+                        </button>
+                        {!item.cancelled && !item.isCompleted && (
+                          <>
+                            <button
+                              onClick={() => navigate(`/appointment/${item.docId}`)}
+                              className='px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 transition-colors'>
+                              Reschedule
+                            </button>
+                            <button
+                              onClick={() => cancelAppointment(item._id)}
+                              className='px-4 py-2 bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 transition-colors border border-red-200'>
+                              Cancel
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

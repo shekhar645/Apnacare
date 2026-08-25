@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import logo from '../assets/logo.jpeg'
 
 const Navbar = ({ aToken, setAToken }) => {
   const navigate = useNavigate()
@@ -13,9 +14,7 @@ const Navbar = ({ aToken, setAToken }) => {
   return (
     <div className='flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shadow-sm'>
       <div className='flex items-center gap-2'>
-        <div className='w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center'>
-          <span className='text-white font-bold'>A</span>
-        </div>
+        <img src={logo} alt='ApnaCare' className='w-9 h-9 object-contain' />
         <span className='text-xl font-bold text-blue-600'>ApnaCare</span>
         <span className='text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full font-medium ml-1'>Admin</span>
       </div>

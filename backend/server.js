@@ -1,13 +1,13 @@
+require('dotenv').config()
+
 const express = require('express')
 const cors = require('cors')
-const dotenv = require('dotenv')
 const connectDB = require('./config/db')
 const connectCloudinary = require('./config/cloudinary')
 const userRoutes = require('./routes/userRoutes')
 const adminRoutes = require('./routes/adminRoutes')
 const doctorRoutes = require('./routes/doctorRoutes')
 
-dotenv.config()
 connectDB()
 connectCloudinary()
 

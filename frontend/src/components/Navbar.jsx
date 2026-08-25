@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
+import logo from '../assets/logo.jpeg'
 
 const Navbar = () => {
   const navigate = useNavigate()
@@ -18,9 +19,7 @@ const Navbar = () => {
 
       {/* Logo */}
       <div onClick={() => navigate('/')} className='cursor-pointer flex items-center gap-2'>
-        <div className='w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center'>
-          <span className='text-white font-bold text-lg'>A</span>
-        </div>
+        <img src={logo} alt='ApnaCare' className='w-10 h-10 object-contain' />
         <span className='text-2xl font-bold text-blue-600'>ApnaCare</span>
       </div>
 
@@ -71,9 +70,7 @@ const Navbar = () => {
       <div className={`${showMenu ? 'fixed w-full' : 'h-0 w-0'} md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all duration-300`}>
         <div className='flex items-center justify-between px-5 py-6'>
           <div className='flex items-center gap-2'>
-            <div className='w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center'>
-              <span className='text-white font-bold'>A</span>
-            </div>
+            <img src={logo} alt='ApnaCare' className='w-8 h-8 object-contain' />
             <span className='text-xl font-bold text-blue-600'>ApnaCare</span>
           </div>
           <p onClick={() => setShowMenu(false)} className='text-3xl cursor-pointer'>✕</p>
