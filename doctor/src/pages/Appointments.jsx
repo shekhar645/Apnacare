@@ -66,7 +66,7 @@ const Appointments = () => {
   }
 
   const joinVideoCall = (appointmentId) => {
-    `https://meet.jit.si/ApnaCare-${appointmentId}?lang=en`
+    window.location.href = `https://meet.jit.si/ApnaCare-${appointmentId}`
   }
 
   useEffect(() => { getAppointments() }, [])
