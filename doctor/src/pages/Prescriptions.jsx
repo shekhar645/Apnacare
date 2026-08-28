@@ -1,24 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-
-// NOTE: Replace 'backendUrl' and 'dToken' below with however your doctor app
-// already stores them (likely from a DoctorContext). If you have a
-// DoctorContext.jsx, import useContext and pull dToken + backendUrl from there
-// instead of the placeholders below.
+import { useSearchParams } from "react-router-dom";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 const Prescriptions = () => {
-  const dToken = localStorage.getItem("dToken"); // change if stored differently
+  const dToken = localStorage.getItem("dToken");
+  const [searchParams] = useSearchParams();
+
+  const urlAppointmentId = searchParams.get("appointmentId") || "";
+  const urlPatientId = searchParams.get("patientId") || "";
 
   const [formData, setFormData] = useState({
-    appointmentId: "",
-    userId: "",
+    appointmentId: urlAppointmentId,
+    userId: urlPatientId,
     diagnosis: "",
     notes: "",
     medicines: [{ name: "", dosage: "", frequency: "", duration: "" }],
   });
   const [message, setMessage] = useState("");
+
+  // In case the page loads before search params are ready
+  useEffect(() => {
+    if (urlAppointmentId || urlPatientId) {
+      setFormData((prev) => ({
+        ...prev,
+        appointmentId: urlAppointmentId || prev.appointmentId,
+        userId: urlPatientId || prev.userId,
+      }));
+    }
+  }, [urlAppointmentId, urlPatientId]);
 
   const handleMedChange = (index, field, value) => {
     const updated = [...formData.medicines];
@@ -51,14 +62,14 @@ const Prescriptions = () => {
       const { data } = await axios.post(
         `${backendUrl}/api/prescription/add`,
         formData,
-        { headers: { dtoken: dToken } } // adjust header name if your authDoctor.js expects something else
+        { headers: { dtoken: dToken } }
       );
 
       if (data.success) {
         setMessage("✅ Prescription added successfully!");
         setFormData({
-          appointmentId: "",
-          userId: "",
+          appointmentId: urlAppointmentId,
+          userId: urlPatientId,
           diagnosis: "",
           notes: "",
           medicines: [{ name: "", dosage: "", frequency: "", duration: "" }],
@@ -86,7 +97,12 @@ const Prescriptions = () => {
               setFormData({ ...formData, appointmentId: e.target.value })
             }
             required
-            style={{ width: "100%", padding: "8px" }}
+            readOnly={!!urlAppointmentId}
+            style={{
+              width: "100%",
+              padding: "8px",
+              backgroundColor: urlAppointmentId ? "#f0f0f0" : "white",
+            }}
           />
         </div>
 
@@ -97,7 +113,12 @@ const Prescriptions = () => {
             value={formData.userId}
             onChange={(e) => setFormData({ ...formData, userId: e.target.value })}
             required
-            style={{ width: "100%", padding: "8px" }}
+            readOnly={!!urlPatientId}
+            style={{
+              width: "100%",
+              padding: "8px",
+              backgroundColor: urlPatientId ? "#f0f0f0" : "white",
+            }}
           />
         </div>
 

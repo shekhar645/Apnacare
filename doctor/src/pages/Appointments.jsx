@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const Appointments = () => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL
   const dToken = localStorage.getItem('dToken')
   const [appointments, setAppointments] = useState([])
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
@@ -59,6 +61,10 @@ const Appointments = () => {
     }
   }
 
+  const goToPrescription = (appointmentId, patientId) => {
+    navigate(`/prescriptions?appointmentId=${appointmentId}&patientId=${patientId}`)
+  }
+
   useEffect(() => { getAppointments() }, [])
 
   if (loading) return (
@@ -73,7 +79,7 @@ const Appointments = () => {
 
       <div className='bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden'>
         {/* Table Header */}
-        <div className='grid grid-cols-[40px_1fr_1fr_1fr_1fr] gap-4 px-5 py-3 bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase'>
+        <div className='grid grid-cols-[40px_1fr_1fr_1fr_1.5fr] gap-4 px-5 py-3 bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase'>
           <span>#</span>
           <span>Patient</span>
           <span>Date & Time</span>
@@ -90,7 +96,7 @@ const Appointments = () => {
           appointments.map((item, index) => (
             <div
               key={index}
-              className='grid grid-cols-[40px_1fr_1fr_1fr_1fr] gap-4 px-5 py-4 border-b border-gray-50 hover:bg-gray-50 items-center'
+              className='grid grid-cols-[40px_1fr_1fr_1fr_1.5fr] gap-4 px-5 py-4 border-b border-gray-50 hover:bg-gray-50 items-center'
             >
               <span className='text-gray-400 text-sm'>{index + 1}</span>
 
@@ -120,9 +126,12 @@ const Appointments = () => {
                   Cancelled
                 </span>
               ) : item.isCompleted ? (
-                <span className='text-xs font-semibold text-green-600 bg-green-50 px-3 py-1 rounded-full w-fit'>
-                  Completed
-                </span>
+                <button
+                  onClick={() => goToPrescription(item._id, item.userId)}
+                  className='text-xs bg-blue-500 text-white px-3 py-1.5 rounded-lg hover:bg-blue-600 transition-all w-fit'
+                >
+                  💊 Prescribe
+                </button>
               ) : (
                 <div className='flex gap-2'>
                   <button
