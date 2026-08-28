@@ -47,6 +47,7 @@ const Navbar = () => {
                 <div className='min-w-48 bg-white rounded-xl flex flex-col gap-4 p-4 shadow-xl border border-gray-100'>
                   <p onClick={() => navigate('/my-profile')} className='hover:text-blue-600 cursor-pointer'>My Profile</p>
                   <p onClick={() => navigate('/my-appointments')} className='hover:text-blue-600 cursor-pointer'>My Appointments</p>
+                  <p onClick={() => navigate('/my-prescriptions')} className='hover:text-blue-600 cursor-pointer'>My Prescriptions</p>
                   <p onClick={logout} className='hover:text-red-500 cursor-pointer'>Logout</p>
                 </div>
               </div>
@@ -80,7 +81,7 @@ const Navbar = () => {
           <NavLink onClick={() => setShowMenu(false)} to='/doctors'><p className='px-4 py-2 rounded-full hover:bg-blue-50'>All Doctors</p></NavLink>
           <NavLink onClick={() => setShowMenu(false)} to='/about'><p className='px-4 py-2 rounded-full hover:bg-blue-50'>About</p></NavLink>
           <NavLink onClick={() => setShowMenu(false)} to='/contact'><p className='px-4 py-2 rounded-full hover:bg-blue-50'>Contact</p></NavLink>
-          <NavLink onClick={() => setShowMenu(false)} to='/contact'><p className='px-4 py-2 rounded-full hover:bg-blue-50'>Contact</p></NavLink>
+          <NavLink onClick={() => setShowMenu(false)} to='/my-prescriptions'><p className='px-4 py-2 rounded-full hover:bg-blue-50'>My Prescriptions</p></NavLink>
         </ul>
       </div>
 
