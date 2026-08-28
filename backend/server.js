@@ -7,6 +7,7 @@ const connectCloudinary = require('./config/cloudinary')
 const userRoutes = require('./routes/userRoutes')
 const adminRoutes = require('./routes/adminRoutes')
 const doctorRoutes = require('./routes/doctorRoutes')
+const prescriptionRouter = require('./routes/prescriptionRoutes')
 
 connectDB()
 connectCloudinary()
@@ -25,6 +26,7 @@ app.use(cors({
 app.use('/api/user', userRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/doctor', doctorRoutes)
+app.use("/api/prescription", prescriptionRouter);
 
 app.get('/', (req, res) => {
   res.send('ApnaCare API is running ✅')

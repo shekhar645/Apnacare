@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import Appointments from './pages/Appointments'
 import Salary from './pages/Salary'
 import Profile from './pages/Profile'
+import Prescriptions from './pages/Prescriptions'
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 
@@ -25,6 +26,7 @@ const App = () => {
               <Route path='/appointments' element={<Appointments />} />
               <Route path='/salary' element={<Salary />} />
               <Route path='/profile' element={<Profile />} />
+              <Route path='/prescriptions' element={<Prescriptions />} />
             </Routes>
           </div>
         </div>
