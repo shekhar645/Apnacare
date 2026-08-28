@@ -8,6 +8,7 @@ import AllAppointments from './pages/AllAppointments'
 import AddDoctor from './pages/AddDoctor'
 import DoctorsList from './pages/DoctorsList'
 import DoctorSalaries from './pages/DoctorSalaries'
+import Payments from './pages/Payments'
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 
@@ -27,6 +28,7 @@ const App = () => {
               <Route path='/add-doctor' element={<AddDoctor />} />
               <Route path='/doctors-list' element={<DoctorsList />} />
               <Route path='/doctor-salaries' element={<DoctorSalaries />} />
+              <Route path='/payments' element={<Payments />} />
             </Routes>
           </div>
         </div>

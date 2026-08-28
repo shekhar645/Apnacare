@@ -5,6 +5,7 @@ const Sidebar = () => {
   const menuItems = [
     { path: '/', icon: '📊', label: 'Dashboard' },
     { path: '/all-appointments', icon: '📅', label: 'Appointments' },
+    { path: '/payments', icon: '💳', label: 'Payments' },
     { path: '/add-doctor', icon: '➕', label: 'Add Doctor' },
     { path: '/doctors-list', icon: '👨‍⚕️', label: 'Doctors List' },
     { path: '/doctor-salaries', icon: '💰', label: 'Doctor Salaries' },
@@ -17,6 +18,7 @@ const Sidebar = () => {
           <NavLink
             key={index}
             to={item.path}
+            end={item.path === '/'}
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-3 rounded-xl mb-2 font-medium text-sm transition-all ${
                 isActive
