@@ -48,6 +48,10 @@ const MyAppointments = () => {
     }
   }
 
+  const joinVideoCall = (appointmentId) => {
+    window.open(`https://meet.jit.si/ApnaCare-${appointmentId}`, '_blank')
+  }
+
   const downloadReceipt = (item) => {
     const doc = new jsPDF()
 
@@ -180,7 +184,7 @@ const MyAppointments = () => {
                         <span>💰</span>
                         <span className='font-bold text-blue-600'>₹{item.amount}</span>
                       </div>
-                      <div className='flex gap-3'>
+                      <div className='flex gap-3 flex-wrap'>
                         <button
                           onClick={() => downloadReceipt(item)}
                           className='px-4 py-2 bg-gray-50 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-100 transition-colors border border-gray-200 flex items-center gap-1.5'>
@@ -188,6 +192,11 @@ const MyAppointments = () => {
                         </button>
                         {!item.cancelled && !item.isCompleted && (
                           <>
+                            <button
+                              onClick={() => joinVideoCall(item._id)}
+                              className='px-4 py-2 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700 transition-colors flex items-center gap-1.5'>
+                              <span>🎥</span> Video Call
+                            </button>
                             <button
                               onClick={() => navigate(`/appointment/${item.docId}`)}
                               className='px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 transition-colors'>

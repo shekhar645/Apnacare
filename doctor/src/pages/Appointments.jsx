@@ -65,6 +65,10 @@ const Appointments = () => {
     navigate(`/prescriptions?appointmentId=${appointmentId}&patientId=${patientId}`)
   }
 
+  const joinVideoCall = (appointmentId) => {
+    window.open(`https://meet.jit.si/ApnaCare-${appointmentId}`, '_blank')
+  }
+
   useEffect(() => { getAppointments() }, [])
 
   if (loading) return (
@@ -78,8 +82,7 @@ const Appointments = () => {
       <h2 className='text-xl font-bold text-gray-800 mb-6'>My Appointments</h2>
 
       <div className='bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden'>
-        {/* Table Header */}
-        <div className='grid grid-cols-[40px_1fr_1fr_1fr_1.5fr] gap-4 px-5 py-3 bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase'>
+        <div className='grid grid-cols-[40px_1fr_1fr_1fr_2fr] gap-4 px-5 py-3 bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase'>
           <span>#</span>
           <span>Patient</span>
           <span>Date & Time</span>
@@ -96,11 +99,10 @@ const Appointments = () => {
           appointments.map((item, index) => (
             <div
               key={index}
-              className='grid grid-cols-[40px_1fr_1fr_1fr_1.5fr] gap-4 px-5 py-4 border-b border-gray-50 hover:bg-gray-50 items-center'
+              className='grid grid-cols-[40px_1fr_1fr_1fr_2fr] gap-4 px-5 py-4 border-b border-gray-50 hover:bg-gray-50 items-center'
             >
               <span className='text-gray-400 text-sm'>{index + 1}</span>
 
-              {/* Patient */}
               <div className='flex items-center gap-3'>
                 <div className='w-9 h-9 bg-blue-100 rounded-xl flex items-center justify-center'>
                   <span className='text-blue-600 font-bold text-sm'>{item.userData.name[0]}</span>
@@ -111,29 +113,34 @@ const Appointments = () => {
                 </div>
               </div>
 
-              {/* Date & Time */}
               <div>
                 <p className='text-sm text-gray-700 font-medium'>{slotDateFormat(item.slotDate)}</p>
                 <p className='text-xs text-gray-400'>{item.slotTime}</p>
               </div>
 
-              {/* Fees */}
               <p className='text-sm font-semibold text-gray-800'>₹{item.amount}</p>
 
-              {/* Action */}
               {item.cancelled ? (
                 <span className='text-xs font-semibold text-red-500 bg-red-50 px-3 py-1 rounded-full w-fit'>
                   Cancelled
                 </span>
               ) : item.isCompleted ? (
-                <button
-                  onClick={() => goToPrescription(item._id, item.userId)}
-                  className='text-xs bg-blue-500 text-white px-3 py-1.5 rounded-lg hover:bg-blue-600 transition-all w-fit'
-                >
-                  💊 Prescribe
-                </button>
+                <div className='flex gap-2 flex-wrap'>
+                  <button
+                    onClick={() => goToPrescription(item._id, item.userId)}
+                    className='text-xs bg-blue-500 text-white px-3 py-1.5 rounded-lg hover:bg-blue-600 transition-all w-fit'
+                  >
+                    💊 Prescribe
+                  </button>
+                </div>
               ) : (
-                <div className='flex gap-2'>
+                <div className='flex gap-2 flex-wrap'>
+                  <button
+                    onClick={() => joinVideoCall(item._id)}
+                    className='text-xs bg-purple-500 text-white px-3 py-1.5 rounded-lg hover:bg-purple-600 transition-all'
+                  >
+                    🎥 Video Call
+                  </button>
                   <button
                     onClick={() => completeAppointment(item._id)}
                     className='text-xs bg-green-500 text-white px-3 py-1.5 rounded-lg hover:bg-green-600 transition-all'
