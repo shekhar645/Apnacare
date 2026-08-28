@@ -49,7 +49,7 @@ const MyAppointments = () => {
   }
 
   const joinVideoCall = (appointmentId) => {
-    window.open(`https://meet.jit.si/ApnaCare-${appointmentId}`, '_blank')
+    window.open(`https://meet.jit.si/ApnaCare-${appointmentId}#config.lang=en`, '_blank')
   }
 
   const downloadReceipt = (item) => {
